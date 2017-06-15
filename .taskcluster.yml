@@ -1,0 +1,42 @@
+---
+version: 0
+metadata:
+  name: Rust Experiment
+  description: ''
+  owner: '{{ event.head.user.email }}'
+  source: '{{ event.head.repo.url }}'
+tasks:
+  - provisionerId: '{{ taskcluster.docker.provisionerId }}'
+    workerType: '{{ taskcluster.docker.workerType }}'
+    extra:
+      github:
+        env: true
+        events:
+          - pull_request.opened
+          - pull_request.synchronize
+          - pull_request.reopened
+          - push
+    payload:
+      maxRunTime: 3600
+      features:
+        dind: true
+      env:
+        IMAGE: "x86_64-gnu-llvm-3.7"
+        RUST_BACKTRACE: "1"
+        SCCACHE_BUCKET: rust-lang-ci-sccache
+        DOCKER_API_VERSION: "1.18"
+      image: "tomprince/rust-ci-base:tc-test"
+      command:
+        - /bin/bash
+        - "--login"
+        - "-c"
+        - >-
+          git clone {{event.head.repo.url}} repo && cd repo &&
+          git config advice.detachedHead false && git checkout {{event.head.sha}} &&
+          ./run-tc.sh
+
+    metadata:
+      name: Rust Experiment
+      description: ''
+      owner: '{{ event.head.user.email }}'
+      source: '{{ event.head.repo.url }}'
