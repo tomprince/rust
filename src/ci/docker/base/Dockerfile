@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   cmake \
   cpio \
   curl \
+  docker.io \
   file \
   flex \
   g++ \
