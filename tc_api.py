@@ -49,7 +49,7 @@ def create_tasks(tasks):
     # helpfully placed it in this same taskGroup.  If there is no $TASK_ID,
     # fall back to a slugid
     task_group_id = decision_task_id or slugid()
-    scheduler_id = 'rust-experiment'
+    scheduler_id = 'taskcluster-github'
 
     task_ids = {}
     for label, task_def in tasks.iteritems():
