@@ -24,7 +24,7 @@ def build_image_task(image):
         "priority": "lowest",
         "created": {"relative-datestamp": "0 day"},
         "deadline": {"relative-datestamp": "1 day"},
-        "metadata": metadata("build-{}".format("image"),
+        "metadata": metadata("build/{}".format(image),
                              "Build docker image for {}".format(image)),
         "payload": {
             "maxRunTime": 3600,
@@ -41,7 +41,7 @@ def build_image_task(image):
             "artifacts": {
                 "public/image.tar": {
                     "expires": {"relative-datestamp": "1 day"},
-                    "path": "/root/image.tar",
+                    "path": "/root/repo/image.tar",
                     "type": "file"
                 }
             },
@@ -67,7 +67,7 @@ def run_image_task(image, labels):
         "priority": "lowest",
         "created": {"relative-datestamp": "0 day"},
         "deadline": {"relative-datestamp": "1 day"},
-        "metadata": metadata("run-{}".format("image"),
+        "metadata": metadata("run/{}".format(image),
                              "Run docker image for {}".format(image)),
         "payload": {
             "maxRunTime": 3600,
