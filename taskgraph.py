@@ -80,15 +80,17 @@ def run_image_task(image, labels):
                 "DOCKER_API_VERSION": "1.18",
                 "GITHUB_HEAD_REPO_URL": environ["GITHUB_HEAD_REPO_URL"],
                 "GITHUB_HEAD_SHA": environ["GITHUB_HEAD_SHA"],
+                "SRC": "/repo",
             },
             "command": [
                 "/bin/bash",
                 "--login",
                 "-c",
-                'git clone "$GITHUB_HEAD_REPO_URL" repo && '
-                'cd repo && git config advice.detachedHead false && '
+                'git clone "$GITHUB_HEAD_REPO_URL" "$SRC" && '
+                'cd "$SRC" && git config advice.detachedHead false && '
                 'git checkout "$GITHUB_HEAD_SHA" && '
-                'src/ci/run.sh'
+                'mkdir /build && cd /build &&'
+                '$SRC/src/ci/run.sh'
             ]
         }
     }
