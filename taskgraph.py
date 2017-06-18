@@ -62,7 +62,7 @@ def run_image_task(image, labels):
     return {
         "provisionerId": "aws-provisioner-v1",
         "workerType": "github-worker",
-        "dependencies": [labels[(image, 'build')]],
+        "dependencies": [labels["/".join([image, 'build'])]],
         "requires": "all-completed",
         "priority": "lowest",
         "created": {"relative-datestamp": "0 day"},
@@ -73,7 +73,7 @@ def run_image_task(image, labels):
             "maxRunTime": 3600,
             "image": {
                 "type": "task-image",
-                "taskId": labels[(image, 'build')],
+                "taskId": labels["/".join([image, 'build'])],
                 "path": "public/image.tar",
             },
             "env": {
@@ -94,14 +94,14 @@ def run_image_task(image, labels):
     }
 
 
-tasks = {}
+tasks = []
 for image in ['x86_64-gnu-llvm-3.7', 'asmjs']:
-    tasks.update({
-        (image, 'build'): build_image_task(image),
-        (image, 'run'): partial(run_image_task, image),
-    })
+    tasks.extend([
+        ("/".join([image, 'build']), build_image_task(image)),
+        ("/".join([image, 'run']), partial(run_image_task, image)),
+    ])
+
+resolved_tasks = create_tasks(tasks)
 
 with open("task-graph.json", "w") as f:
-    json.dump(tasks, f)
-
-create_tasks(tasks)
+    json.dump(resolved_tasks, f)

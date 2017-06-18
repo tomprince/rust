@@ -51,8 +51,9 @@ def create_tasks(tasks):
     task_group_id = decision_task_id or slugid()
     scheduler_id = 'taskcluster-github'
 
+    resolved_tasks = {}
     task_ids = {}
-    for label, task_def in tasks.iteritems():
+    for label, task_def in tasks:
         task_id = slugid()
         task_ids[label] = task_id
 
@@ -67,7 +68,10 @@ def create_tasks(tasks):
         task_def['taskGroupId'] = task_group_id
         task_def['schedulerId'] = scheduler_id
 
+        resolved_tasks[task_id] = task_def
         create_task(session, task_id, label, task_def)
+
+    return resolved_tasks
 
 
 def create_task(session, task_id, label, task_def):
