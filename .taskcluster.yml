@@ -16,20 +16,17 @@ tasks:
           - pull_request.synchronize
           - pull_request.reopened
           - push
+    scopes:
+      - queue:create-task:aws-provisioner-v1/github-worker
     payload:
       maxRunTime: 3600
       features:
-        dind: true
-      env:
-        IMAGE: "x86_64-gnu-llvm-3.7"
-        RUST_BACKTRACE: "1"
-        SCCACHE_BUCKET: rust-lang-ci-sccache
-        DOCKER_API_VERSION: "1.18"
+        taskclusterProxy: true
       image: "tomprince/rust-ci-base:tc-test"
       artifacts:
-        "public/image.tar":
+        "public/task-graph.json":
           expires: "{{ '1 day' | $fromNow }}"
-          path: "/root/repo/image.tar"
+          path: "/root/repo/task-graph.json"
           type: file
       command:
         - /bin/bash
@@ -38,7 +35,7 @@ tasks:
         - >-
           git clone {{event.head.repo.url}} repo && cd repo &&
           git config advice.detachedHead false && git checkout {{event.head.sha}} &&
-          ./run-tc.sh
+          ./taskgraph.py
 
     metadata:
       name: Rust Experiment
