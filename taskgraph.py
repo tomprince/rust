@@ -81,6 +81,7 @@ def run_image_task(image, labels):
                 "GITHUB_HEAD_REPO_URL": environ["GITHUB_HEAD_REPO_URL"],
                 "GITHUB_HEAD_SHA": environ["GITHUB_HEAD_SHA"],
                 "SRC": "/repo",
+                "SCCACHE_BUCKET": "rust-lang-ci-sccache",
             },
             "command": [
                 "/bin/bash",
