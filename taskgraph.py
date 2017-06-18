@@ -70,7 +70,7 @@ def run_image_task(image, labels):
         "metadata": metadata("run/{}".format(image),
                              "Run docker image for {}".format(image)),
         "payload": {
-            "maxRunTime": 3600,
+            "maxRunTime": 4*3600,
             "image": {
                 "type": "task-image",
                 "taskId": labels["/".join([image, 'build'])],
