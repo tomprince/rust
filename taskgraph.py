@@ -101,7 +101,7 @@ for image in ['x86_64-gnu-llvm-3.7', 'asmjs']:
         (image, 'run'): partial(run_image_task, image),
     })
 
-with open("task-graph.json") as f:
+with open("task-graph.json", "w") as f:
     json.dump(tasks, f)
 
 create_tasks(tasks)
