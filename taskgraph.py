@@ -7,12 +7,25 @@ from functools import partial
 from tc_api import create_tasks
 
 
+def metadata(name, description):
+    return {
+        "name": name,
+        "description": description,
+        "owner": environ["GITHUB_HEAD_USER_EMAIL"],
+        "source": environ["GITHUB_HEAD_REPO_URL"],
+    }
+
+
 def build_image_task(image):
     return {
         "provisionerId": "aws-provisioner-v1",
         "workerType": "github-worker",
         "requires": "all-completed",
         "priority": "lowest",
+        "created": {"relative-datestamp": "0 day"},
+        "deadline": {"relative-datestamp": "1 day"},
+        "metadata": metadata("build-{}".format("image"),
+                             "Build docker image for {}".format(image)),
         "payload": {
             "maxRunTime": 3600,
             "features": {
@@ -52,6 +65,10 @@ def run_image_task(image, labels):
         "depedencies": [labels[(image, 'build')]],
         "requires": "all-completed",
         "priority": "lowest",
+        "created": {"relative-datestamp": "0 day"},
+        "deadline": {"relative-datestamp": "1 day"},
+        "metadata": metadata("run-{}".format("image"),
+                             "Run docker image for {}".format(image)),
         "payload": {
             "maxRunTime": 3600,
             "image": {
