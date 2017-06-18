@@ -89,6 +89,7 @@ def run_image_task(image, labels):
                 'git clone "$GITHUB_HEAD_REPO_URL" "$SRC" && '
                 'cd "$SRC" && git config advice.detachedHead false && '
                 'git checkout "$GITHUB_HEAD_SHA" && '
+                'src/ci/init_repo.sh . "$HOME/rustsrc" && '
                 'mkdir /build && cd /build &&'
                 '$SRC/src/ci/run.sh'
             ]
