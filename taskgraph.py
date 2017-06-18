@@ -91,7 +91,7 @@ def run_image_task(image, labels):
                 'git checkout "$GITHUB_HEAD_SHA" && '
                 'mkdir "$HOME/rustsrc" && '
                 'src/ci/init_repo.sh . "$HOME/rustsrc" && '
-                'mkdir /build && cd /build &&'
+                'mkdir $SRC/build && cd $SRC/build &&'
                 '$SRC/src/ci/run.sh'
             ]
         }
