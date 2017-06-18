@@ -11,7 +11,6 @@ import requests
 import requests.adapters
 import json
 import os
-import logging
 
 
 # From https://github.com/taskcluster/slugid.py
@@ -38,8 +37,6 @@ from tc_time import (
     current_json_time,
     json_time_from_now
 )
-
-logger = logging.getLogger(__name__)
 
 
 def create_tasks(tasks):
@@ -81,14 +78,13 @@ def create_task(session, task_id, label, task_def):
     now = current_json_time(datetime_format=True)
     task_def = resolve_timestamps(now, task_def)
 
-    logger.debug("Creating task with taskId {} for {}".format(task_id, label))
     res = session.put('http://taskcluster/queue/v1/task/{}'.format(task_id),
                       data=json.dumps(task_def))
     if res.status_code != 200:
         try:
-            logger.error(res.json()['message'])
+            print(res.json()['message'])
         except:
-            logger.error(res.text)
+            print(res.text)
         res.raise_for_status()
 
 
