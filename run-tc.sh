@@ -4,13 +4,8 @@ set -e
 
 mkdir -p "$HOME/rustsrc"
 
-echo
-echo
-echo "#### Disk usage before running script:";
-df -h;
-du . | sort -nr | head -n100
 
-src/ci/init_repo.sh . "$HOME/rustsrc"
+pwd
 
 if grep -q "FROM rust-ci-base" "src/ci/docker/$IMAGE/Dockerfile"; then
     docker \
@@ -32,9 +27,3 @@ docker \
     save \
     -o "image.tar" \
     rust-ci
-
-echo
-echo
-echo "#### Build finished; Disk usage after running script:";
-df -h;
-du . | sort -nr | head -n100

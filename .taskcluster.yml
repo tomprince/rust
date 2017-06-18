@@ -26,7 +26,7 @@ tasks:
       artifacts:
         "public/task-graph.json":
           expires: "{{ '1 day' | $fromNow }}"
-          path: "/root/repo/task-graph.json"
+          path: "/repo/task-graph.json"
           type: file
       command:
         - /bin/bash

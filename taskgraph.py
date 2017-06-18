@@ -41,7 +41,7 @@ def build_image_task(image):
             "artifacts": {
                 "public/image.tar": {
                     "expires": {"relative-datestamp": "1 day"},
-                    "path": "/root/repo/image.tar",
+                    "path": "/repo/image.tar",
                     "type": "file"
                 }
             },
