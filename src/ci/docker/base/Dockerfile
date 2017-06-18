@@ -43,4 +43,9 @@ RUN curl -o /usr/local/bin/sccache \
 RUN curl -OL https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb && \
     dpkg -i dumb-init_*.deb && \
     rm dumb-init_*.deb
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+RUN curl -o "/usr/local/bin/stamp" \
+      https://s3.amazonaws.com/rust-lang-ci/rust-ci-mirror/2017-03-17-stamp-x86_64-unknown-linux-musl && \
+      chmod +x /usr/local/bin/stamp
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/stamp" ]
