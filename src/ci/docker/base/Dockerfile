@@ -48,4 +48,8 @@ RUN curl -o "/usr/local/bin/stamp" \
       https://s3.amazonaws.com/rust-lang-ci/rust-ci-mirror/2017-03-17-stamp-x86_64-unknown-linux-musl && \
       chmod +x /usr/local/bin/stamp
 
+RUN curl -o "/usr/local/bin/taskcluster" \
+      https://index.taskcluster.net/v1/task/project.taskcluster.taskcluster-cli.latest/artifacts/public/linux-amd64/taskcluster && \
+      chmod +x /usr/local/bin/taskcluster
+
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/stamp" ]
