@@ -26,6 +26,11 @@ tasks:
         SCCACHE_BUCKET: rust-lang-ci-sccache
         DOCKER_API_VERSION: "1.18"
       image: "tomprince/rust-ci-base:tc-test"
+      artifacts:
+        "public/image.tar":
+          expires: "{{ '1 day' | $fromNow }}"
+          path: "/root/repo/image.tar"
+          type: file
       command:
         - /bin/bash
         - "--login"
